@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 *.webloc
 *.vmdk
 *.ovf
+=======
+>>>>>>> f1e71751dc5f22398f6c57f62667eadda6266cb7
 .DS_STORE
 data
 
