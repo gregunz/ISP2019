@@ -8,7 +8,7 @@ Example part2: then if we multiply it by 2, it becomes 0 (0000...000) (the leadi
 In the end we want to fill the buffer of the `240 * sizeof(struct widget_t)` plus we want to overwrite 8 more bytes as in sploit1 (`ebp` and `ret`).
 Because the multiplication happens in the `foo` function, we can simply add (240 + 1) to 2147483648.
 This number becomes a negative `int` and the leading zero disappears after the multiplication to result in `(240 + 1) * sizeof(struct widget_t)`
-This is enough to fill the buffer with NOP sled, put the shellcode, and overwrite the `ret` which will point to the NOP sled. (the same way as in my sploit1)
+This is enough to fill the buffer with NOP sled, put the shellcode, and overwrite the `ret` which will point (using gdb) to the NOP sled. (the same way as in my sploit1)
 ** I'm in ** (hacker voice)
 
 ps: we could also have used 3221225472 (2 leading zeros) instead of 2147483648 (1 leading zero), you get the idea.
