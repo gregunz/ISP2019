@@ -1,9 +1,9 @@
 This attack is a trickier than the buffer overflow in sploit 1.
 Here, we can also do a buffer overflow but only at the last iteration in the `for` loop (`<=` instead of `<`).
-Hence, only 1 byte can be overwritten, it is first one of `ebp`.
+Hence, only 1 byte can be overwritten, it is the last one of `ebp`.
 As usual, we start to fill our buffer attack with NOP to make the address return easier.
 The attack is such that when the function `nstrcpy` return, `ebp` will have been modified.
 Modified such that when `bar` terminate and reach for its `ret` pointer, it in fact reaches a modified `ret` which itself points to the middle of our NOP sled.
-(using gdb): (to know how to change the first byte, we first locate where is the modified `ret`, and hopefully it only differs in the first byte)
+(using gdb): (to know how to change the last byte, we first locate where is the modified `ret`, and hopefully it only differs in the first byte)
 Again, the shellcode is put at the end of the NOP sled :)
 ** I'm in ** (hacker voice)
