@@ -2,6 +2,7 @@ This attack is a simple buffer overflow when `strcpy(out, arg)` is done.
 `out` is of size 240 Bytes, we can write a bit further then by having a longer than 240B `arg`.
 By a bit further, we mean just 8 more bytes (4 for `ebp` and 4 for `ret` pointers).
 We start to fill our buffer attack with NOP to make the address return easier.
-Now, we can put the shellcode near the end and then overwrite the `ret` pointer address at the last 4 bytes.
+Now, we can put the shellcode near the end and then overwrite the `ret` pointer address.
 We want the overwritten `ret` address to point inside the NOP sled, we can do that by looking at stack address with GDB.
+What will happen now it that when it returns, it will go through the NOP sled until it meets the shellcode which is what we are looking for :).
 ** I'm in ** (hacker voice)

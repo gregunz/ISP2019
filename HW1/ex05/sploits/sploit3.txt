@@ -1,12 +1,14 @@
 This attack is very similar to the sploit 1.
-In fact, it's the same principle but we need to a buffer overflow first to escape the `if (count < MAX_WIDGETS)` condition.
+In fact, it's the same principle but we need to an integer overflow first to escape the `if (count < MAX_WIDGETS)` condition.
 To escape it, we use the fact that an unsigned integer is casted to `int` when assigned to count and becomes negative.
 Then, the trick happens when the multiplication by `sizeof(struct widget_t)` is done.
 It will shift/remove the leading 1 and a negative number that went through the condition, can be turned into a positive one again.
-Example part1: 2147483647 + 1 = -2147483647 (in int) is represented by 1000....000.
+Example part1: 2147483647 + 1 = 2147483648 (= -2147483647 in `int`) is represented by 1000....000.
 Example part2: then if we multiply it by 2, it becomes 0 (0000...000) (the leading one "disappeared").
-In the end we want to fill the buffer of the `240 * sizeof(struct widget_t)` plus we want to overwrite 8 more bytes as in sploit1 (ebp & ret).
-Because the multiplication happens in the `foo` function, we can simply add (240 + 1) to 2147483648 (= 2147483647 + 1).
-This number after becomes a negative `int` and the leading zero disappears after the multiplication to result in `(240 + 1) * sizeof(struct widget_t)`
-This is enough to fill the buffer with NOP sled, put the shellcode, and overwrite the ret which will point to the NOP sled. (the same way as in my sploit1)
+In the end we want to fill the buffer of the `240 * sizeof(struct widget_t)` plus we want to overwrite 8 more bytes as in sploit1 (`ebp` and `ret`).
+Because the multiplication happens in the `foo` function, we can simply add (240 + 1) to 2147483648.
+This number becomes a negative `int` and the leading zero disappears after the multiplication to result in `(240 + 1) * sizeof(struct widget_t)`
+This is enough to fill the buffer with NOP sled, put the shellcode, and overwrite the `ret` which will point to the NOP sled. (the same way as in my sploit1)
 ** I'm in ** (hacker voice)
+
+ps: we could also have used 3221225472 (2 leading zeros) instead of 2147483648 (1 leading zero), you get the idea.
