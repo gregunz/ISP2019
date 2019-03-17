@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import request, abort
+from flask import Flask, request, abort
 import base64
 import sys
 
@@ -31,3 +30,5 @@ def login():
         return 'success'
     else:
         return abort(400)
+
+app.run()
