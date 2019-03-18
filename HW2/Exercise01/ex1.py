@@ -1,6 +1,5 @@
 from flask import Flask, request, abort
 import base64
-import sys
 
 def superencryption(msg,key):
     if len(key) < len(msg):
