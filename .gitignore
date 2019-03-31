@@ -5,6 +5,7 @@
 .DS_STORE
 data
 *tmp*
+*passwords*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
