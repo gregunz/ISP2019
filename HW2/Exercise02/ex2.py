@@ -51,19 +51,16 @@ async def hello():
         salt_hex = await websocket.recv()
         print(f"< salt_hex = {salt_hex}")
         salt = decode(salt_hex)
-        #print(f"< salt = {salt}")
 
         a = decode(rand_hex(32))
         print(f'a = {a}')
         A = pow(g, a, N)
         A_hex = encode(A)
         await websocket.send(A_hex)
-        #print(f'> A = {A}')
         print(f'> A_hex = {A_hex}')
 
         B_hex = await websocket.recv()
         B = decode(B_hex)
-        #print(f"< B = {B}")
         print(f"< B_hex = {B_hex}")
 
         u_hex = H(A_hex + B_hex)
