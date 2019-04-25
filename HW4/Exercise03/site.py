@@ -26,9 +26,20 @@ database = "hw4_ex3"
 @app.route("/messages",methods=["GET","POST"])
 def messages():
     with db.cursor() as cursor:
-        ## your code here
-        return jsonify(json),200
+        sql = "SELECT name,message FROM messages"
+        if request.method=="POST":
+            name = request.form.get("name")
+            if name is not None and name is not "":
+                sql+=" WHERE name = %s"
+                cursor.execute(sql, name)
+            else:
+                return 'an error occured', 500
+        if request.method=="GET":
+            cursor.execute(sql)
 
+        results = cursor.fetchall()
+        json = [{'name':name, 'message':message} for name, message in results]
+        return jsonify(json),200
 
 # SCHEMA: users (name,password)
 ## This method returns the list of users in a json format such as
@@ -40,7 +51,19 @@ def messages():
 @app.route("/users",methods=["GET"])
 def contact():
     with db.cursor() as cursor:
-        ## your code here
+        sql = "SELECT name FROM users"
+        limit = request.args.get("limit")
+        if limit is not None:
+            try:
+                limit = int(limit)
+            except ValueError:
+                return 'an error occured', 500
+            sql += ' LIMIT %s'
+            cursor.execute(sql, limit)
+        else:
+            cursor.execute(sql)
+        results = cursor.fetchall()
+        json = {'users': [row[0] for row in results]}
         return jsonify(json),200
 
 if __name__ == "__main__":
