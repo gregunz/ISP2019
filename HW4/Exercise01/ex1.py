@@ -37,15 +37,23 @@ def create_db(num_movies):
 
     return db, emails, movies
 
+epsilon = np.log(2)
+    
+def noise(eps):
+    return np.random.laplace(scale=1/eps)
 
 def count_ratings(db, movies, rating_levels):
     k = len(movies)
     assert len(movies) == len(rating_levels) == k
 
-    # TODO: Write your code here.
+    movies_set = set(movies)
+    queries = list(zip(movies, rating_levels))
 
-    return []
+    def counter(movie, rating_level):
+        return len([None for (_,m,_,r) in db if m is movie and r >= rating_level])
 
+    noise_per_movie = {m:noise(epsilon / k) for m in movies_set}
+    return [counter(m,r) + noise_per_movie[m] for m,r in queries]
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
